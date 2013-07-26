@@ -1,0 +1,22 @@
+= link_to "New Game", new_board_path
+%br
+- if @winner
+  The winner is #{@winner}
+  %br
+
+.board
+  - (@board.height-1).downto(0) do |y|
+    - 0.upto(@board.width-1) do |x|
+      - if @board.data[x].try(:[], y)
+        %span{:class => @board.data[x].try(:[], y)}
+      - else
+        %span{:class => "blank", :onclick => "setPiece(#{x});"}
+    %br{:style => "clear:both"}
+
+
+- unless @winner
+  = form_for @board do |f|
+    = hidden_field_tag :place_x
+    = hidden_field_tag :place_y
+    = hidden_field_tag :player, @board.turn
+  
